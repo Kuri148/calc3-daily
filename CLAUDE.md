@@ -1,7 +1,7 @@
 # Calc 3 Daily: agent playbook
 
 This repo is a static site (GitHub Pages, served from `main` at the repo root) of interactive
-Calculus 3 figures. A scheduled agent adds **one new activity per day** and emails the learner.
+Calculus 3 figures. A scheduled agent adds **one new activity per day** (5 AM US Central) and pings the learner.
 
 Live site: https://kuri148.github.io/calc3-daily/
 
@@ -30,7 +30,7 @@ opened on a phone from the email, so every page has to work at 390px wide.
    must be correct. Compute them independently (e.g. with a quick python script) rather than trusting
    your first draft.
 7. Commit (`Day N: <title>`) and `git push origin main`.
-8. Email the learner (see "The ping").
+8. End with the ping message (see "The ping").
 
 If the curriculum is finished, build a "remix" activity that combines two earlier ideas, and append
 a new unit to `CURRICULUM.md`.
@@ -74,9 +74,11 @@ a new unit to `CURRICULUM.md`.
 - Keep each page self-contained apart from the shared assets.
 
 ## The ping
-After pushing, send one email with the Gmail connector to **pjgrzywacz@gmail.com**:
-- Subject: `Calc 3 Daily · Day N: <title>`
-- Body (plain text, short): one or two sentences on the hook (the surprising thing they'll see), the
-  link `https://kuri148.github.io/calc3-daily/activities/NNN-slug.html`, and one "try this first"
-  challenge. Don't pad it.
+The scheduled task sends the learner a push notification and an email containing the run's **final
+message**. So the final message *is* the ping. Keep it short and plain:
+- First line: `Calc 3 Daily · Day N: <title>`
+- One or two sentences on the hook (the surprising thing they'll see).
+- The link `https://kuri148.github.io/calc3-daily/activities/NNN-slug.html`
+- One "try this first" challenge.
+If the run failed (for example the push was refused or a test couldn't be fixed), say so plainly instead.
 GitHub Pages can take a minute or two to update after a push. That's fine.
