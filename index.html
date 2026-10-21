@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Calc 3 Daily</title>
+<link rel="stylesheet" href="assets/style.css">
+<script src="assets/common.js"></script>
+</head>
+<body>
+<main class="wrap">
+  <div class="topbar"><span class="eyebrow">Multivariable calculus, one figure a day</span><button class="theme-btn" type="button" id="theme">Theme</button></div>
+  <h1>Calc 3 Daily</h1>
+  <p class="lede">Each day brings one new interactive figure. Rotate it, drag the sliders, and work through the questions at the end.</p>
+  <div id="progress-wrap">
+    <div class="progress"><div id="bar"></div></div>
+    <div class="eyebrow" id="progress-label"></div>
+  </div>
+  <div id="latest"></div>
+  <div id="units"></div>
+</main>
+<script>
+(async function () {
+  const btn = document.getElementById("theme");
+  const label = () => { btn.textContent = "Theme: " + (document.documentElement.dataset.theme || "auto"); };
+  label();
+  btn.addEventListener("click", () => { C3.cycleTheme(); label(); });
+
+  const TOTAL = 60; // planned activities in CURRICULUM.md
+  const list = await (await fetch("activities.json")).json();
+  const done = C3.doneSet();
+  const nDone = list.filter((a) => done.has(a.slug)).length;
+  document.getElementById("bar").style.width = (100 * nDone / TOTAL) + "%";
+  document.getElementById("progress-label").textContent =
+    `${nDone} done · ${list.length} published · ${TOTAL} planned`;
+
+  const esc = (s) => s.replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+  const card = (a, latest) => `
+    <a class="card${done.has(a.slug) ? " done" : ""}${latest ? " latest" : ""}" href="activities/${a.slug}.html">
+      <div class="meta"><span>Day ${a.day}${latest ? " · latest" : ""}</span></div>
+      <h3>${esc(a.title)}</h3>
+      <p>${esc(a.summary)}</p>
+    </a>`;
+
+  const latest = list[list.length - 1];
+  document.getElementById("latest").innerHTML =
+    `<h2>Latest</h2><div class="cards">${card(latest, true)}</div>`;
+
+  const units = [];
+  for (const a of list) {
+    let u = units.find((x) => x.name === a.unit);
+    if (!u) units.push(u = { name: a.unit, items: [] });
+    u.items.push(a);
+  }
+  document.getElementById("units").innerHTML = units.map((u) =>
+    `<h2 class="unit-head">${esc(u.name)}</h2><div class="cards">${u.items.map((a) => card(a, false)).join("")}</div>`
+  ).join("");
+})();
+</script>
+</body>
+</html>

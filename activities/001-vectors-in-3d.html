@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vectors in 3D · Calc 3 Daily</title>
+<link rel="stylesheet" href="../assets/vendor/katex/katex.min.css">
+<link rel="stylesheet" href="../assets/style.css">
+<script src="../assets/vendor/plotly.min.js"></script>
+<script src="../assets/vendor/katex/katex.min.js"></script>
+<script src="../assets/vendor/katex/auto-render.min.js"></script>
+<script src="../assets/common.js"></script>
+</head>
+<body>
+<main class="wrap">
+  <div id="topbar"></div>
+  <div class="eyebrow">Day 1 · Unit 1: Vectors &amp; the geometry of space</div>
+  <h1>Vectors in 3D</h1>
+  <p class="lede">Calc 3 lives in three dimensions, and its basic unit of currency is the vector: an arrow with a length and a direction, written as three numbers. Today: how to see them, add them, stretch them, and measure them.</p>
+
+  <div class="lab">
+    <div id="plot" class="plot"></div>
+    <div class="controls" id="controls">
+      <fieldset>
+        <legend><span class="swatch" style="background:var(--c1)"></span>u</legend>
+        <div class="ctl"><label for="u1">u₁</label><input type="range" id="u1" min="-4" max="4" step="0.5" value="3"><output></output></div>
+        <div class="ctl"><label for="u2">u₂</label><input type="range" id="u2" min="-4" max="4" step="0.5" value="1"><output></output></div>
+        <div class="ctl"><label for="u3">u₃</label><input type="range" id="u3" min="-4" max="4" step="0.5" value="2"><output></output></div>
+      </fieldset>
+      <fieldset>
+        <legend><span class="swatch" style="background:var(--c2)"></span>v</legend>
+        <div class="ctl"><label for="v1">v₁</label><input type="range" id="v1" min="-4" max="4" step="0.5" value="-1"><output></output></div>
+        <div class="ctl"><label for="v2">v₂</label><input type="range" id="v2" min="-4" max="4" step="0.5" value="3"><output></output></div>
+        <div class="ctl"><label for="v3">v₃</label><input type="range" id="v3" min="-4" max="4" step="0.5" value="1"><output></output></div>
+      </fieldset>
+      <fieldset>
+        <legend><span class="swatch" style="background:var(--c4)"></span>scale u by c</legend>
+        <div class="ctl"><label for="c">c</label><input type="range" id="c" min="-2" max="2" step="0.1" value="1"><output></output></div>
+      </fieldset>
+      <label class="toggle"><input type="checkbox" id="showSum" checked> Show u + v (parallelogram)</label>
+      <label class="toggle"><input type="checkbox" id="showLen"> Show how |u| is built (two right triangles)</label>
+      <label class="toggle"><input type="checkbox" id="showScale"> Show c·u</label>
+      <div class="btn-row">
+        <button class="btn" data-preset="basis">i, j</button>
+        <button class="btn" data-preset="parallel">Parallel</button>
+        <button class="btn" data-preset="opposite">Cancel out</button>
+        <button class="btn" data-preset="quad">Length exactly 3</button>
+      </div>
+    </div>
+  </div>
+  <div class="readout" id="readout" style="margin-top:12px"></div>
+
+  <h2>What you're looking at</h2>
+  <p>A vector \(\mathbf u = \langle u_1, u_2, u_3\rangle\) means "go \(u_1\) in x, \(u_2\) in y, \(u_3\) in z." It has no fixed home; we just like drawing it from the origin. Drag the figure to rotate it. A single 2D screen can't show depth, so rotating is how your brain recovers the third dimension.</p>
+
+  <p><b>Adding</b> is tip-to-tail: walk along \(\mathbf u\), then along \(\mathbf v\). Componentwise, \(\mathbf u + \mathbf v = \langle u_1+v_1,\ u_2+v_2,\ u_3+v_3\rangle\). The green diagonal of the parallelogram is the sum, whichever order you walk.</p>
+
+  <p><b>Scaling</b> by a number \(c\) stretches the arrow by \(|c|\) and flips it if \(c&lt;0\). It never rotates it to point somewhere new, which is exactly what "parallel" means: \(\mathbf v\) is parallel to \(\mathbf u\) when \(\mathbf v = c\,\mathbf u\) for some \(c\).</p>
+
+  <h2>Length is Pythagoras, twice</h2>
+  <p>Turn on <i>Show how |u| is built</i>. The dashed line runs along the floor (the xy-plane) to the point under the tip of \(\mathbf u\). Its length is \(\sqrt{u_1^2+u_2^2}\) from ordinary 2D Pythagoras. Then a vertical leg of height \(u_3\) climbs to the tip, making a second right triangle:</p>
+  <div class="formula">$$|\mathbf u| = \sqrt{\left(\sqrt{u_1^2+u_2^2}\right)^2 + u_3^2} = \sqrt{u_1^2+u_2^2+u_3^2}$$</div>
+  <p>That formula also gives the distance between two points: the distance from \(P\) to \(Q\) is the length of the vector \(Q - P\).</p>
+
+  <div class="callout"><b>Why this matters for the rest of Calc 3.</b> Almost everything ahead is built from these operations. Tangent lines are \(\text{point} + t\cdot\text{direction}\). Velocity is a vector. A gradient is a vector pointing uphill. Vector fields put an arrow at every point in space. If adding and scaling arrows feels natural, the rest has something to stand on.</div>
+
+  <h2>Things to try</h2>
+  <ol class="try">
+    <li>Press <b>Cancel out</b>. What is \(\mathbf u+\mathbf v\)? What does the parallelogram collapse into?</li>
+    <li>Watch the triangle inequality line in the readout. Can you make \(|\mathbf u+\mathbf v| = |\mathbf u|+|\mathbf v|\) exactly? What has to be true about the two arrows?</li>
+    <li>Turn on <i>c·u</i> and sweep \(c\) from 2 down to −2. Where is \(|c\,\mathbf u|\) smallest? What happens to the direction as \(c\) crosses 0?</li>
+    <li>Find a vector of length exactly 3 with no zero components, without pressing the preset. (Hint: \(1+4+4=9\).) Can you find one of length 6?</li>
+  </ol>
+
+  <h2>Check yourself</h2>
+  <details class="check">
+    <summary>1. What is the length of \(\langle 2, -3, 6\rangle\)?</summary>
+    \(\sqrt{4+9+36} = \sqrt{49} = 7\). (Signs don't matter for length since every component gets squared.)
+  </details>
+  <details class="check">
+    <summary>2. Find the unit vector (length 1) pointing the same way as \(\langle 2,-3,6\rangle\).</summary>
+    Divide by the length: \(\tfrac17\langle 2,-3,6\rangle = \langle \tfrac27, -\tfrac37, \tfrac67\rangle\). Scaling by a positive number keeps the direction, and \(1/|\mathbf v|\) makes the length 1.
+  </details>
+  <details class="check">
+    <summary>3. Are \(\langle 1, -2, 3\rangle\) and \(\langle -3, 6, -9\rangle\) parallel?</summary>
+    Yes: \(\langle -3, 6, -9\rangle = -3\,\langle 1,-2,3\rangle\). They point in opposite directions along the same line.
+  </details>
+  <details class="check">
+    <summary>4. How far apart are the points \(P=(1,0,2)\) and \(Q=(4,4,2)\)?</summary>
+    \(Q-P = \langle 3,4,0\rangle\), length \(\sqrt{9+16+0}=5\).
+  </details>
+
+  <p style="margin-top:28px"><b>Tomorrow:</b> the dot product, a single number that tells you the angle between two arrows.</p>
+
+  <div id="footer"></div>
+</main>
+
+<script>
+(function () {
+  const presets = {
+    basis:    { u1: 1, u2: 0, u3: 0, v1: 0, v2: 1, v3: 0 },
+    parallel: { u1: 1, u2: 1, u3: 1, v1: 2, v2: 2, v3: 2 },
+    opposite: { u1: 2, u2: -1, u3: 3, v1: -2, v2: 1, v3: -3 },
+    quad:     { u1: 1, u2: 2, u3: 2 },
+  };
+  const toggles = ["showSum", "showLen", "showScale"].map((id) => document.getElementById(id));
+  const S = C3.sliders("controls", () => draw());
+  toggles.forEach((t) => t.addEventListener("change", () => draw()));
+  document.querySelectorAll("[data-preset]").forEach((b) =>
+    b.addEventListener("click", () => S.set(presets[b.dataset.preset])));
+
+  const norm = (a) => Math.hypot(...a);
+  const add = (a, b) => a.map((x, i) => x + b[i]);
+  const O = [0, 0, 0];
+
+  function render() {
+    const s = S.values();
+    const col = C3.colors().series;
+    const u = [s.u1, s.u2, s.u3], v = [s.v1, s.v2, s.v3], cu = u.map((x) => s.c * x);
+    const w = add(u, v);
+    const data = [...C3.axes3d(5)];
+    if (toggles[0].checked) {
+      data.push({
+        type: "mesh3d", x: [0, u[0], w[0], v[0]], y: [0, u[1], w[1], v[1]], z: [0, u[2], w[2], v[2]],
+        i: [0, 0], j: [1, 2], k: [2, 3], color: col[2], opacity: 0.15, hoverinfo: "skip", flatshading: true,
+      });
+      data.push(C3.segment3d(u, w, col[1]), C3.segment3d(v, w, col[0]));
+      data.push(...C3.arrow3d(O, w, col[2], "u + v"));
+    }
+    if (toggles[1].checked) {
+      const foot = [u[0], u[1], 0];
+      data.push(C3.segment3d(O, foot, col[0], { width: 3 }), C3.segment3d(foot, u, col[0], { width: 3 }));
+      data.push({ type: "scatter3d", mode: "markers", x: [foot[0]], y: [foot[1]], z: [0], marker: { size: 3, color: col[0] }, hoverinfo: "skip" });
+    }
+    if (toggles[2].checked) data.push(...C3.arrow3d(O, cu, col[3], "c·u", { width: 10 }));
+    data.push(...C3.arrow3d(O, u, col[0], "u"), ...C3.arrow3d(O, v, col[1], "v"));
+    // Tip labels
+    data.push({
+      type: "scatter3d", mode: "text", x: [u[0], v[0]], y: [u[1], v[1]], z: [u[2], v[2]],
+      text: ["u", "v"], textposition: "top center", textfont: { color: [col[0], col[1]], size: 16 }, hoverinfo: "skip",
+    });
+    updateReadout(u, v, w, cu, s.c);
+    return { data, layout: C3.layout3d({ range: [-5, 5] }) };
+  }
+
+  function updateReadout(u, v, w, cu, c) {
+    const nu = norm(u), nv = norm(v), nw = norm(w);
+    const tight = Math.abs(nw - (nu + nv)) < 1e-9;
+    document.getElementById("readout").innerHTML =
+      `<b>u</b> = ${C3.vec(u, 1)} &nbsp; |u| = √${C3.fmt(nu * nu, 2)} = ${C3.fmt(nu)}<br>` +
+      `<b>v</b> = ${C3.vec(v, 1)} &nbsp; |v| = ${C3.fmt(nv)}<br>` +
+      `<b>u + v</b> = ${C3.vec(w, 1)} &nbsp; |u + v| = ${C3.fmt(nw)}<br>` +
+      `<b>Triangle inequality</b>: |u+v| = ${C3.fmt(nw)} ≤ |u| + |v| = ${C3.fmt(nu + nv)} ` +
+      (tight ? `<span class="hit">← equal!</span>` : "") + `<br>` +
+      `<b>c·u</b> = ${C3.vec(cu, 2)} &nbsp; |c·u| = |c|·|u| = ${C3.fmt(Math.abs(c))} × ${C3.fmt(nu)} = ${C3.fmt(norm(cu))}`;
+  }
+
+  const draw = C3.mount("plot", render);
+  C3.page("001-vectors-in-3d");
+})();
+</script>
+</body>
+</html>

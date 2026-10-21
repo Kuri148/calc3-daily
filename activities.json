@@ -1,0 +1,10 @@
+[
+  {
+    "day": 1,
+    "slug": "001-vectors-in-3d",
+    "title": "Vectors in 3D",
+    "unit": "Vectors & the geometry of space",
+    "summary": "Drag arrows around in space: add them tip-to-tail, scale them, and see why length is Pythagoras applied twice.",
+    "date": "2026-10-21"
+  }
+]
